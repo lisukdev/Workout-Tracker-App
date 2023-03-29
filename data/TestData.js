@@ -1,143 +1,174 @@
+import uuid from 'react-native-uuid';
+
 export const ExampleWorkout = {
-    "id": "7c8d401e-9f85-4660-ae57-f2ec6e7f4d13",
-    "name": "My cool workout",
-    "notes": "Do this fast",
+    "id": uuid.v4(),
+    "name": "HF/HI Comp PL EC 4x",
+    notes: "Day 3",
     "exercises": [
         {
-            "id": "4603da1c-0737-4656-b5f6-a4f92b73e04d",
-            "name": "Squat",
-            "notes": "Squats are fun",
-            "tempo": {
-                "targetEccentricSeconds": 3,
-                "targetPauseSeconds": 0,
-                "targetConcentricSeconds": 3,
-                "targetRestSeconds": 0
-            },
-            "data": [
+            "id": uuid.v4(),
+            "name": "Speed Squat",
+            "sets": [
                 {
-                    "id": "e41d5e2e-a34a-416c-a075-9b26350511e3",
+                    "id": uuid.v4(),
                     "reps": {
-                        "targetRepsLowerBound": 3,
-                        "targetRepsUpperBound": 5,
-                        "asManyAsPossible": false,
-                        "achievedReps": 3
+                        "targetRepsLowerBound": 2,
                     },
                     "load": {
                         "targetLoad": {
                             "scheme": "RPE",
-                            "percentage": null,
-                            "rpe": 7.0,
-                            "weight": null
+                            "rpe": 6,
                         },
-                        "achievedLoad": {
-                            "value": 200.0,
-                            "unit": "KG"
-                        }
                     },
                     "completedAt": null
                 },
                 {
-                    "id": "0cc3c312-9e7f-4ba0-a5e3-916074b6bc07",
+                    "id": uuid.v4(),
                     "reps": {
-                        "targetRepsLowerBound": 3,
-                        "targetRepsUpperBound": 5,
-                        "asManyAsPossible": false,
-                        "achievedReps": 3
+                        "targetRepsLowerBound": 2,
                     },
                     "load": {
                         "targetLoad": {
                             "scheme": "RPE",
-                            "percentage": null,
-                            "rpe": 8.0,
-                            "weight": null
+                            "rpe": 6,
                         },
-                        "achievedLoad": {
-                            "value": 210.0,
-                            "unit": "KG"
-                        }
                     },
                     "completedAt": null
                 },
                 {
-                    "id": "46519252-bb30-4f30-b53d-3b06ec22605d",
+                    "id": uuid.v4(),
                     "reps": {
-                        "targetRepsLowerBound": 3,
-                        "targetRepsUpperBound": 5,
-                        "asManyAsPossible": true,
-                        "achievedReps": 3
+                        "targetRepsLowerBound": 2,
                     },
                     "load": {
                         "targetLoad": {
                             "scheme": "RPE",
-                            "percentage": null,
-                            "rpe": 9.0,
-                            "weight": null
+                            "rpe": 6,
                         },
-                        "achievedLoad": null
                     },
                     "completedAt": null
+                },
+                {
+                    "id": uuid.v4(),
+                    "reps": {
+                        "targetRepsLowerBound": 2,
+                    },
+                    "load": {
+                        "targetLoad": {
+                            "scheme": "RPE",
+                            "rpe": 6,
+                        },
+                    },
+                    "completedAt": null
+                },
+                {
+                    "id": uuid.v4(),
+                    "reps": {
+                        "targetRepsLowerBound": 2,
+                    },
+                    "load": {
+                        "targetLoad": {
+                            "scheme": "RPE",
+                            "rpe": 6,
+                        },
+                    },
+                    "completedAt": null
+                }
+            ],
+            "targetRestTime": 60
+        },
+        {
+            "id": uuid.v4(),
+            "name": "Touch and Go Bench Press",
+            "notes": "Focus on speed and accuracy",
+            "sets": [
+                {
+                    "id": uuid.v4(),
+                    "reps": {
+                        "targetRepsLowerBound": 2,
+                    },
+                    "load": {
+                        "targetLoad": {
+                            "scheme": "RPE",
+                            "rpe": 6
+                        },
+                    },
+                },
+                {
+                    "id": uuid.v4(),
+                    "reps": {
+                        "targetRepsLowerBound": 2,
+                    },
+                    "load": {
+                        "targetLoad": {
+                            "scheme": "RPE",
+                            "rpe": 6
+                        },
+                    },
+                },
+                {
+                    "id": uuid.v4(),
+                    "reps": {
+                        "targetRepsLowerBound": 2,
+                    },
+                    "load": {
+                        "targetLoad": {
+                            "scheme": "RPE",
+                            "rpe": 6
+                        },
+                    },
+                },
+                {
+                    "id": uuid.v4(),
+                    "reps": {
+                        "targetRepsLowerBound": 2,
+                    },
+                    "load": {
+                        "targetLoad": {
+                            "scheme": "RPE",
+                            "rpe": 6
+                        },
+                    },
+                },
+                {
+                    "id": uuid.v4(),
+                    "reps": {
+                        "targetRepsLowerBound": 2,
+                    },
+                    "load": {
+                        "targetLoad": {
+                            "scheme": "RPE",
+                            "rpe": 6
+                        },
+                    },
+                }
+            ],
+            "targetRestTime": 60
+        },
+        {
+            "id": uuid.v4(),
+            "name": "Wide Grip Pull Up",
+            "sets": [
+                {
+                    "id": uuid.v4(),
+                    "reps": {
+                        "asManyAsPossible": true
+                    }
+                },
+                {
+                    "id": uuid.v4(),
+                    "reps": {
+                        "asManyAsPossible": true
+                    }
+                },
+                {
+                    "id": uuid.v4(),
+                    "reps": {
+                        "asManyAsPossible": true
+                    }
                 }
             ],
             "targetRestTime": 120
-        },
-        {
-            "id": "0cb3aeb6-75c0-4a78-a9e8-3c8b3f482d83",
-            "name": "Bench Press",
-            "notes": "",
-            "tempo": null,
-            "data": [
-                {
-                    "id": "c475cb49-8590-477b-9228-fb71c5b7f9a3",
-                    "reps": {
-                        "targetRepsLowerBound": 3,
-                        "asManyAsPossible": false,
-                        "achievedReps": 3
-                    },
-                    "load": {
-                        "targetLoad": {
-                            "scheme": "WEIGHT",
-                            "weight": {
-                                "value": 100.0,
-                                "unit": "KG",
-                            }
-                        },
-                        "achievedLoad": null
-                    },
-                    "completedAt": null
-                },
-                {
-                    "id": "79391827-ca20-41c6-84f9-09e113b3af2b",
-                    "reps": {
-                        "targetRepsLowerBound": 3,
-                        "asManyAsPossible": false,
-                        "achievedReps": 3
-                    },
-                    "load": {
-                        "targetLoad": {
-                            "scheme": "PERCENTAGE",
-                            "percentage": .75,
-                        },
-                        "achievedLoad": null
-                    },
-                    "completedAt": null
-                },
-                {
-                    "id": "92d29e81-e444-462e-8511-1109b27090b2",
-                    "reps": {
-                        "targetRepsLowerBound": 3,
-                        "asManyAsPossible": true,
-                        "achievedReps": 3
-                    },
-                    "load": {
-                        "targetLoad": {
-                            "scheme": "PERCENTAGE",
-                            "percentage": .85,
-                        },
-                        "achievedLoad": null
-                    },
-                    "completedAt": null
-                }
-            ],
         }
     ],
     "creationTime": "2023-03-27T20:47:09.193919Z",

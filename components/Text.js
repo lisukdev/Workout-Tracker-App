@@ -11,8 +11,8 @@ export function HeaderText({children}) {
     return <Text style={styles.header}>{children}</Text>;
 }
 
-export function SubHeaderText({children}) {
-    return <Text style={styles.subheader}>{children}</Text>;
+export function SubHeaderText({children, style={}}) {
+    return <Text style={[styles.subheader, style]}>{children}</Text>;
 }
 
 const styles = StyleSheet.create({
