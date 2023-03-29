@@ -1,94 +1,74 @@
-import {Button, InputAccessoryView, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {useRef, useState} from "react";
+import {StyleSheet, Text, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
-import {setAchieved} from "../redux/workout/action";
+import StructuredTextEdit from "./StructuredTextEdit";
+import {updateTarget, updateAchieved} from "../redux/workout/action";
 
-export default function Set({data, active, onAchieved}) {
-    const {id, reps, load} = data;
+export default function Set({id}){
+    const {target, achieved} = useSelector(state => state.workout.setData[id]);
     const dispatch = useDispatch();
-    const achieved = useSelector(state => state.workout.achievedSets[data.id]);
     return (
-        <View style={[styles.container, active ? styles.active : null]}>
-            <View style={styles.targetContainer}>
-                <TargetRep reps={reps} />
-                <TargetLoad load={load.targetLoad} />
-            </View>
-            <View style={styles.achievedContainer}>
-                <Pressable onPress={() => dispatch(setAchieved(id, 5, {value:5, unit: "KG"}))}>
-                    {achieved != null
-                        ? <AchievedLoad id={data.id} achievedReps={achieved.reps} load={achieved.load} />
-                        : <Text>Todo</Text>
-                    }
-                </Pressable>
-            </View>
+        <View style={[styles.setRow]}>
+            <StructuredTextEdit
+                id={id + "-target"}
+                style={styles.textBox}
+                value={target}
+                validationRegex={/^(\d*)(-\d*)?\+?(R(\d(\.(\d)?)?)?|P\d{0-3}|X\d*(\.\d*)?[KL]?)?$/}
+                extraKeys={[
+                    {value:"R", label:"RPE"},
+                    {value:"X", label:"X"},
+                    {value:"P", label:"%"},
+                    {value:"K", label:"Kg"},
+                    {value:"L", label:"Lb"},
+                    {value:"-", label:"-"},
+                    {value:"+", label:"+"},
+                ]}
+                valueFormatter={(value) => value
+                    .replaceAll("R", " @")
+                    .replaceAll("X", " X ")
+                    .replaceAll("P", " %")
+                    .replaceAll("K", "KG")
+                    .replaceAll("L", "LB")
+                }
+                onAcceptedValue={(newValue) => dispatch(updateTarget(id, newValue))}
+            />
+            <StructuredTextEdit
+                id={id + "-achieved"}
+                style={styles.textBox}
+                value={achieved}
+                validationRegex={/^\d*(X(\d*(\.\d*)?)?)?[-+]?$/u}
+                valueFormatter={(value) => value
+                    .replaceAll("x", " X ")
+                    .replaceAll("+", "👍")
+                    .replaceAll("-", "👎")
+                    .replaceAll("K", "KG")
+                    .replaceAll("L", "LB")
+            }
+                extraKeys={[
+                    {value:"X", label:"X"},
+                    {value:"K", label:"Kg"},
+                    {value:"L", label:"Lb"},
+                    {value:"+", label:"👍"},
+                    {value: "-", label:"👎"},
+                ]}
+                onAcceptedValue={(newValue) => dispatch(updateAchieved(id, newValue))}
+            />
         </View>
     );
 }
-
-function TargetRep({reps: {targetRepsLowerBound, targetRepsUpperBound, asManyAsPossible}}) {
-    return <Text>
-        {targetRepsLowerBound}
-        {targetRepsUpperBound ? " - " + targetRepsUpperBound : null}
-        {asManyAsPossible ? "+": ""}
-    </Text>
-}
-
-function TargetLoad({load: {scheme, percentage, rpe, weight}}) {
-    switch(scheme) {
-        case "RPE":
-            return (<Text>@RPE{rpe.toFixed(1)}</Text>);
-        case "PERCENTAGE":
-            return (<Text>@{(percentage*100).toFixed(0)}%</Text>);
-        case "WEIGHT":
-            return (<Text>x{weight.value.toFixed(0)}{weight.unit}</Text>);
-        default:
-            return null
-    }
-    return (
-        <View>
-            <Text>{targetLoad.scheme}</Text>
-            <Text>{targetLoad.percentage}</Text>
-            <Text>{targetLoad.rpe}</Text>
-            <Text>{targetLoad.weight}</Text>
-        </View>
-    );
-}
-
-function AchievedLoad({id, achievedReps , load: {value, unit}}) {
-    const ref_reps = useRef();
-    return (
-        <View style={{flexDirection: "row"}}>
-            <TextInput returnKeyType="done" keyboardType="number-pad" inputAccessoryViewID={id} onSubmitEditing={() => ref_reps.current.focus()} />
-            <Text>X</Text>
-            <TextInput returnKeyType="done" inputMode="numeric" ref={ref_reps} />
-            <Text>{unit}</Text>
-            <InputAccessoryView nativeID={id} style={{height:30, alignItems: 'center', justifyContent: "center"}} backgroundColor="#ccc" >
-                <View style={{flexDirection: "row", alignSelf: "center", justifyContent: "space-evenly"}} >
-                    <Text>Reps: {achievedReps}</Text>
-                    <Text>Load:{value} {unit}</Text>
-                </View>
-            </InputAccessoryView>
-        </View>
-    );
-}
-
-
 const styles = StyleSheet.create({
-    active: {
-        backgroundColor: "pink",
-    },
-    container: {
+    setRow: {
         width: "100%",
-        paddingLeft: 25,
-        paddingRight: 25,
-        marginVertical: 5,
         flexDirection: "row",
         justifyContent: "space-between",
+        backgroundColor: "#eee",
+        borderBottomWidth: 1,
+        borderColor: "#ccc",
     },
-    targetContainer: {
-        flexDirection: "row",
-    },
-    achievedContainer: {
-        flexDirection: "row",
+    textBox: {
+        fontSize: 16,
+        width: 150,
+        textAlign: "center",
+        paddingVertical: 7.5,
+        marginHorizontal: 5,
     },
 })

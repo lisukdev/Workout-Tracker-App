@@ -1,50 +1,65 @@
-import {Pressable, SectionList, StyleSheet, Text, View} from "react-native";
+import {KeyboardAvoidingView, Pressable, SectionList, StyleSheet, Text, View} from "react-native";
 import Set from "./Set";
 import {HeaderText, NoteText, SubHeaderText, TitleText} from "./Text";
 import IconButton from "./IconButton";
 import Button from "./Button";
-import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {finishWorkout, loadWorkout} from "../redux/workout/action";
 
-export default function Workout({name, notes, exercises}) {
-    const [activeSet, setActiveSet] = useState(null)
-    const [achieved, setAchieved] = useState({})
-    const addAchieved = (id, achieved) => setAchieved({...achieved, [id]: achieved})
+export default function Workout() {
+    const dispatch = useDispatch();
+    const workoutData = useSelector(state => state.workout.workoutData);
+    const metadata = useSelector(state => state.workout.workoutMetadata);
+    if (workoutData == null) {
+        return <View>
+            <Text>No workout loaded</Text>
+            <Button label="Load Workout" onPress={() => dispatch(loadWorkout(""))}/>
+        </View>
+    }
     return (
-        <View>
+        <KeyboardAvoidingView  style={{height:"100%"}} behavior="padding">
             <View style={[styles.header, {flexDirection: "row", justifyContent: "space-between"}]}>
-                <TitleText>{name}</TitleText>
+                <TitleText>{metadata.name}</TitleText>
+                {}
                 <View style={styles.headerButtons}>
-                    <IconButton icon="edit" onPress={() => console.log("Edit")}/>
-                    <IconButton icon="play" onPress={() => setActiveSet(exercises[0].data[0].id)}/>
+                    <IconButton icon="edit" />
+                    <IconButton icon="play" />
                 </View>
             </View>
             <SectionList
-                sections={exercises}
-                keyExtractor={(item, index) => item.id}
-                renderItem={({item}) => <Set data={item} active={item.id === activeSet}/>}
+                style={{height:500}}
+                sections={workoutData}
+                keyboardShouldPersistTaps={"always"}
+                bounces={false}
+                //keyExtractor={(item, index) => item.id}
+                renderItem={({item}) => <Set {...item}/>}
                 renderSectionHeader={({section}) => <ExerciseHeader {...section}/>}
-                // renderSectionFooter={({section}) => <View><Pressable><Text>Add Set</Text></Pressable></View>}
-                ItemSeparatorComponent={({section}) => section.targetRestTime ? <View><RestTime {...section} /></View> : null}
+                renderSectionFooter={({section}) => <View><Pressable><Text>Add Set</Text></Pressable></View>}
+                ListFooterComponent={
+                    <View>
+                        <Button label="Finish" onPress={() => dispatch(finishWorkout(metadata.id))}/>
+                    </View>
+                }
+                //ItemSeparatorComponent={({section}) => section.targetRestTime ? <View><RestTime {...section} /></View> : null}
             />
-            <View>
-                <Button label="Finish" onPress={() => alert(JSON.stringify(achieved))}/>
-            </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 
 function ExerciseHeader({name, notes, tempo}) {
     return (
+        <View>
         <View style={styles.header}>
-            <HeaderText style={styles.headerText}>
-                {name}
-                &nbsp;
-                <Tempo tempo={tempo} />
-            </HeaderText>
-            {notes ? <NoteText>{notes}</NoteText> : null}
-            <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-                <SubHeaderText>Target</SubHeaderText>
-                <SubHeaderText>Achieved</SubHeaderText>
+                <HeaderText style={styles.headerText}>
+                    {name}
+                    &nbsp;
+                    <Tempo tempo={tempo} />
+                </HeaderText>
+                {notes ? <NoteText>{notes}</NoteText> : null}
+            </View>
+            <View style={styles.setHeader}>
+                <Text style={styles.setHeaderText}>Target</Text>
+                <Text style={styles.setHeaderText}>Achieved</Text>
             </View>
         </View>
     );
@@ -75,7 +90,7 @@ function Tempo({tempo }) {
 }
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: "lightgrey",
+        backgroundColor: "#ddd",
         paddingHorizontal: 10,
         paddingVertical: 5,
     },
@@ -87,5 +102,20 @@ const styles = StyleSheet.create({
     subheader: {
         flexDirection: "row",
         justifyContent: "space-between",
+    },
+    setHeader: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        backgroundColor: "#ddd",
+        borderBottomWidth: 1,
+        borderColor: "#ccc",
+    },
+    setHeaderText: {
+        fontSize: 16,
+        width: 150,
+        textAlign: "center",
+        paddingVertical: 7.5,
+        marginHorizontal: 5,
     }
 })
