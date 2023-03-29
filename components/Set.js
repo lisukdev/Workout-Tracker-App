@@ -1,4 +1,4 @@
-import {Button, InputAccessoryView, Pressable, StyleSheet, Text, TextInput, View} from "react-native";
+import {Button, InputAccessoryView, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {setAchieved} from "../redux/workout/action";
@@ -62,10 +62,10 @@ function AchievedLoad({id, achievedReps , load: {value, unit}}) {
             <Text>X</Text>
             <TextInput returnKeyType="done" inputMode="numeric" ref={ref_reps} />
             <Text>{unit}</Text>
-            <InputAccessoryView nativeID={id} style={{bottom:100}} backgroundColor="#ccc" >
-                <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
-                <Button title="X"/>
-                <Button title="Good"/>
+            <InputAccessoryView nativeID={id} style={{height:30, alignItems: 'center', justifyContent: "center"}} backgroundColor="#ccc" >
+                <View style={{flexDirection: "row", alignSelf: "center", justifyContent: "space-evenly"}} >
+                    <Text>Reps: {achievedReps}</Text>
+                    <Text>Load:{value} {unit}</Text>
                 </View>
             </InputAccessoryView>
         </View>

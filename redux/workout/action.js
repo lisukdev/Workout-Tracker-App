@@ -5,3 +5,10 @@ export const setAchieved = (id, reps, load, ) => {
         data: {reps, load}
     }
 }
+
+export const loadWorkout = (id) => {
+    return {
+        type: "GET_WORKOUT",
+        id: id
+    }
+}
