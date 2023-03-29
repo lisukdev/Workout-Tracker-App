@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from "react-native";
+import {Pressable, StyleSheet, Text, View} from "react-native";
 import {useState} from "react";
 
 export default function Set({data, active, onAchieved}) {
@@ -12,7 +12,7 @@ export default function Set({data, active, onAchieved}) {
                 <TargetLoad load={load.targetLoad} />
             </View>
             <View style={styles.achievedContainer}>
-                <Pressable onPress={() }>
+                <Pressable>
                     {load.achievedLoad != null ? <AchievedLoad achievedReps={reps.achievedReps} load={load.achievedLoad} /> : null}
                 </Pressable>
             </View>
