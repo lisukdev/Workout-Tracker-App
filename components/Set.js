@@ -1,10 +1,12 @@
-import {StyleSheet, Text, View} from "react-native";
-import {useState} from "react";
+import {Button, InputAccessoryView, Pressable, StyleSheet, Text, TextInput, View} from "react-native";
+import {useRef, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {setAchieved} from "../redux/workout/action";
 
 export default function Set({data, active, onAchieved}) {
-    const {reps, load} = data;
-    const [showModal, setModal] = useState(false)
-    const [achieved, setAchieved] = useState(null)
+    const {id, reps, load} = data;
+    const dispatch = useDispatch();
+    const achieved = useSelector(state => state.workout.achievedSets[data.id]);
     return (
         <View style={[styles.container, active ? styles.active : null]}>
             <View style={styles.targetContainer}>
@@ -12,8 +14,11 @@ export default function Set({data, active, onAchieved}) {
                 <TargetLoad load={load.targetLoad} />
             </View>
             <View style={styles.achievedContainer}>
-                <Pressable onPress={() }>
-                    {load.achievedLoad != null ? <AchievedLoad achievedReps={reps.achievedReps} load={load.achievedLoad} /> : null}
+                <Pressable onPress={() => dispatch(setAchieved(id, 5, {value:5, unit: "KG"}))}>
+                    {achieved != null
+                        ? <AchievedLoad id={data.id} achievedReps={achieved.reps} load={achieved.load} />
+                        : <Text>Todo</Text>
+                    }
                 </Pressable>
             </View>
         </View>
@@ -49,10 +54,20 @@ function TargetLoad({load: {scheme, percentage, rpe, weight}}) {
     );
 }
 
-function AchievedLoad({achievedReps , load: {value, unit}}) {
+function AchievedLoad({id, achievedReps , load: {value, unit}}) {
+    const ref_reps = useRef();
     return (
-        <View>
-            <Text>{achievedReps} X {value} {unit}</Text>
+        <View style={{flexDirection: "row"}}>
+            <TextInput returnKeyType="done" keyboardType="number-pad" inputAccessoryViewID={id} onSubmitEditing={() => ref_reps.current.focus()} />
+            <Text>X</Text>
+            <TextInput returnKeyType="done" inputMode="numeric" ref={ref_reps} />
+            <Text>{unit}</Text>
+            <InputAccessoryView nativeID={id} style={{bottom:100}} backgroundColor="#ccc" >
+                <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
+                <Button title="X"/>
+                <Button title="Good"/>
+                </View>
+            </InputAccessoryView>
         </View>
     );
 }
