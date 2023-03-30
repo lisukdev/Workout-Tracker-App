@@ -26,22 +26,22 @@ export interface Weight {
 export function exerciseSetToString(set: ExerciseSet): {id: string, target: string, achieved: string} {
     let target = ""
 
-    if (set.reps != null) {
-        if (set.reps.targetRepsLowerBound) target += `${set.reps.targetRepsLowerBound}`
-        if (set.reps.targetRepsUpperBound) target += `-${set.reps.targetRepsUpperBound}`
-        if (set.reps.asManyAsPossible) target += "+"
-        if (set.load && set.load.targetLoad) {
-            switch (set.load.targetLoad.scheme) {
-                case 'RPE':
-                    target += `R${set.load.targetLoad.rpe}`
-                    break;
-                case 'PERCENTAGE':
-                    target += `X${set.load.targetLoad.percentage}%`
-                    break;
-                case 'WEIGHT':
-                    target += `X${set.load.targetLoad.weight.value}${set.load.targetLoad.weight.unit[0]}`
-                    break;
-            }
+    if (set.load && set.load.targetLoad) {
+        switch (set.load.targetLoad.scheme) {
+            case 'RPE':
+                target += `R${set.load.targetLoad.rpe}`
+                break;
+            case 'PERCENTAGE':
+                target += `${set.load.targetLoad.percentage}%`
+                break;
+            case 'WEIGHT':
+                target += `${set.load.targetLoad.weight.value}${set.load.targetLoad.weight.unit[0]}`
+                break;
+        }
+        if (set.reps && set.reps.targetRepsLowerBound) {
+            target += `X${set.reps.targetRepsLowerBound}`
+            if (set.reps.targetRepsUpperBound) target += `-${set.reps.targetRepsUpperBound}`
+            if (set.reps.asManyAsPossible) target += "+"
         }
     }
 
@@ -68,4 +68,4 @@ const WEIGHT_PREFIX = `[0-9]*(\\.[0-9]*)?[KL]?`;
 const LOAD_PREFIX = `(${RPE_PREFIX}|${PERCENTAGE_PREFIX}|${WEIGHT_PREFIX})`
 const TARGET_REPS_PREFIX = "(\\+?|[0-9]+\\+?|[0-9]+-([0-9]+\\+?)?)"
 export const TARGET_REGEX_PREFIX = new RegExp(`^((${LOAD_PREFIX})(X(${TARGET_REPS_PREFIX})?)?)?$`)
-export const ACHIEVED_REGEX_PREFIX = new RegExp(`^((${WEIGHT_PREFIX})(X([0-9]+)?)?)?$`)
+export const ACHIEVED_REGEX_PREFIX = new RegExp(`^((${WEIGHT_PREFIX})(X([0-9]+[+-]?)?)?)??$`)

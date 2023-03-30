@@ -1,7 +1,8 @@
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import StructuredTextEdit from "./StructuredTextEdit";
 import {updateTarget, updateAchieved} from "../redux/workout/action";
+import {ACHIEVED_REGEX_PREFIX, TARGET_REGEX_PREFIX} from "../data/ExerciseSets";
 
 export default function Set({id}){
     const {target, achieved} = useSelector(state => state.workout.setData[id]);
@@ -24,7 +25,8 @@ export default function Set({id}){
                 ]}
                 valueFormatter={(value) => value
                     .replaceAll("R", "RPE")
-                    .replaceAll("X", " X ")
+                    .replaceAll("X+", "AMRAP")
+                    .replaceAll("X", " x ")
                     .replaceAll("K", "Kg")
                     .replaceAll("L", "Lb")
                 }
@@ -36,11 +38,11 @@ export default function Set({id}){
                 value={achieved}
                 validationRegex={ACHIEVED_REGEX_PREFIX}
                 valueFormatter={(value) => value
-                    .replaceAll("X", " X ")
+                    .replaceAll("X", " x ")
                     .replaceAll("+", "👍")
                     .replaceAll("-", "👎")
-                    .replaceAll("K", "KG")
-                    .replaceAll("L", "LB")
+                    .replaceAll("K", "Kg")
+                    .replaceAll("L", "Lb")
             }
                 extraKeys={[
                     {value:"X", label:"X"},
