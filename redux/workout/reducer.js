@@ -81,6 +81,7 @@ export default (state = initialState, action) => {
                     })
                     setData[set.id] = exerciseSetToString(set);
                     setReferences[set.id] = {targetRef: createRef(), achievedRef: createRef()};
+                    ind += 1
                 }
                 workoutData.push({
                     id: exercise.id,
