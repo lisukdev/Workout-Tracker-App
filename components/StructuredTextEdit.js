@@ -15,10 +15,13 @@ export default function StructuredTextEdit(
         id,
         style,
         value = "",
+        textInputRef = null,
         validationRegex = /.*/,
         valueFormatter = (x) => x,
         extraKeys = [],
         onAcceptedValue = (v) => console.log("Accepted Value: " + v),
+        onPressPrev = () => null,
+        onPressNext = () => null,
     }) {
     const [isEditing, setIsEditing] = useState(false);
     const formattedValue = valueFormatter(value);
@@ -43,12 +46,13 @@ export default function StructuredTextEdit(
             <Text style={styles.extraKeyText}>{label}</Text>
         </Pressable>
     )
-    const content = <View>
+    return <View>
         <TextInput
             style={style}
-            id={id}
+            id={id + "-textinput"}
+            ref={textInputRef}
             cursorColor={"red"}
-            keyboardType="numeric"d
+            keyboardType="numeric"
             inputAccessoryViewID={keyboardNativeId}
             value={formattedValue}
             onKeyPress={(event) => onKeyPress(event.nativeEvent.key)}
@@ -57,15 +61,17 @@ export default function StructuredTextEdit(
         />
         <InputAccessoryView id={keyboardNativeId} nativeID={keyboardNativeId}>
             <View style={styles.actionBar}>
-                <View></View>
-                <Button style={styles.actionBarButton} title="Submit" onPress={() => Keyboard.dismiss()}/>
+                <View style={{flexDirection: "row"}}>
+                    <Button id={id + '-prev'} style={styles.actionBarButton} title="Prev" onPress={onPressPrev}/>
+                    <Button id={id + '-next'} style={styles.actionBarButton} title="Next" onPress={onPressNext}/>
+                </View>
+                <Button id={id + '-submit'} style={styles.actionBarButton} title="Submit" onPress={() => Keyboard.dismiss()}/>
             </View>
             <View style={styles.extraKeysContainer}>
                 {keys}
             </View>
         </InputAccessoryView>
     </View>
-    return content;
 }
 
 const styles = StyleSheet.create({
