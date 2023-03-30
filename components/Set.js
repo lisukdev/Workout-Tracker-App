@@ -1,7 +1,8 @@
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import StructuredTextEdit from "./StructuredTextEdit";
 import {updateTarget, updateAchieved} from "../redux/workout/action";
+import {ACHIEVED_REGEX_PREFIX, TARGET_REGEX_PREFIX} from "../data/ExerciseSets";
 
 export default function Set({id}){
     const {target, achieved} = useSelector(state => state.workout.setData[id]);
@@ -12,22 +13,22 @@ export default function Set({id}){
                 id={id + "-target"}
                 style={styles.textBox}
                 value={target}
-                validationRegex={/^(\d*)(-\d*)?\+?(R(\d(\.(\d)?)?)?|P\d{0-3}|X\d*(\.\d*)?[KL]?)?$/}
+                validationRegex={TARGET_REGEX_PREFIX}
                 extraKeys={[
                     {value:"R", label:"RPE"},
                     {value:"X", label:"X"},
-                    {value:"P", label:"%"},
+                    {value:"%", label:"%"},
                     {value:"K", label:"Kg"},
                     {value:"L", label:"Lb"},
                     {value:"-", label:"-"},
                     {value:"+", label:"+"},
                 ]}
                 valueFormatter={(value) => value
-                    .replaceAll("R", " @")
-                    .replaceAll("X", " X ")
-                    .replaceAll("P", " %")
-                    .replaceAll("K", "KG")
-                    .replaceAll("L", "LB")
+                    .replaceAll("R", "RPE")
+                    .replaceAll("X+", "AMRAP")
+                    .replaceAll("X", " x ")
+                    .replaceAll("K", "Kg")
+                    .replaceAll("L", "Lb")
                 }
                 onAcceptedValue={(newValue) => dispatch(updateTarget(id, newValue))}
             />
@@ -35,13 +36,13 @@ export default function Set({id}){
                 id={id + "-achieved"}
                 style={styles.textBox}
                 value={achieved}
-                validationRegex={/^\d*(X(\d*(\.\d*)?)?)?[-+]?$/u}
+                validationRegex={ACHIEVED_REGEX_PREFIX}
                 valueFormatter={(value) => value
-                    .replaceAll("x", " X ")
+                    .replaceAll("X", " x ")
                     .replaceAll("+", "👍")
                     .replaceAll("-", "👎")
-                    .replaceAll("K", "KG")
-                    .replaceAll("L", "LB")
+                    .replaceAll("K", "Kg")
+                    .replaceAll("L", "Lb")
             }
                 extraKeys={[
                     {value:"X", label:"X"},
