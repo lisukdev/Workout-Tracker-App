@@ -19,12 +19,7 @@ export default function Set({id, prevSetId, nextSetId}) {
                 value={target}
                 validationRegex={TARGET_REGEX_PREFIX}
                 onPressPrev={() => {if (prevRefs) {prevRefs.targetRef.current.focus()}}}
-                onPressNext={() => {
-                    console.log("thisId", id)
-                    console.log("nextSetId", nextSetId)
-                    console.log("nextRefs", nextRefs.targetRef.current._internalFiberInstanceHandleDEV.memoizedProps.id)
-                    if (nextRefs) {nextRefs.targetRef.current.focus()}}
-            }
+                onPressNext={() => {if (nextRefs) {nextRefs.targetRef.current.focus()}}}
                 extraKeys={[
                     {value:"R", label:"RPE"},
                     {value:"X", label:"X"},
