@@ -1,11 +1,13 @@
 import {ExampleWorkout} from "../../data/TestData";
 import {exerciseSetToString} from "../../data/ExerciseSets";
 import uuid from "react-native-uuid";
+import {createRef} from "react";
 
 const initialState = {
     workoutMetadata: null,
     workoutData: null,
     setData: {},
+    setReferences: null,
 }
 
 export default (state = initialState, action) => {
@@ -64,25 +66,39 @@ export default (state = initialState, action) => {
             }
             const workoutData = [];
             const setData = {};
+            const setReferences = {};
+            const setIds = ExampleWorkout.exercises.map(exercise => exercise.sets.map(set => set.id)).flat();
+            let ind = 0;
             for (const exercise of ExampleWorkout.exercises) {
+                let exerciseData = []
+                for (const set of exercise.sets) {
+                    const prevSetId = ind > 0 ? setIds[ind - 1] : null;
+                    const nextSetId = ind < setIds.length - 1 ? setIds[ind + 1] : null;
+                    exerciseData.push({
+                        id: set.id,
+                        prevSetId: prevSetId,
+                        nextSetId: nextSetId,
+                    })
+                    setData[set.id] = exerciseSetToString(set);
+                    setReferences[set.id] = {targetRef: createRef(), achievedRef: createRef()};
+                }
                 workoutData.push({
                     id: exercise.id,
                     name: exercise.name,
                     notes: exercise.notes,
                     tempo: exercise.tempo,
                     targetRestTime: exercise.targetRestTime,
-                    data: exercise.sets.map(set => {return {id: set.id}}),
+                    data: exerciseData
                 })
-                for (const set of exercise.sets) {
-                    setData[set.id] = exerciseSetToString(set);
-                }
             }
+            console.log(setReferences)
 
             return {
                 ...state,
                 workoutMetadata: workoutMetadata,
                 workoutData: workoutData,
                 setData: setData,
+                setReferences: setReferences,
             }
         default:
             return state;

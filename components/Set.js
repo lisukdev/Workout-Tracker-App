@@ -4,16 +4,27 @@ import StructuredTextEdit from "./StructuredTextEdit";
 import {updateTarget, updateAchieved} from "../redux/workout/action";
 import {ACHIEVED_REGEX_PREFIX, TARGET_REGEX_PREFIX} from "../data/ExerciseSets";
 
-export default function Set({id}){
+export default function Set({id, prevSetId, nextSetId}) {
     const {target, achieved} = useSelector(state => state.workout.setData[id]);
+    const {targetRef, achievedRef} = useSelector(state => state.workout.setReferences[id]);
+    const prevRefs = useSelector(state => state.workout.setReferences[prevSetId]);
+    const nextRefs = useSelector(state => state.workout.setReferences[nextSetId]);
     const dispatch = useDispatch();
     return (
-        <View style={[styles.setRow]}>
+        <View style={styles.setRow}>
             <StructuredTextEdit
                 id={id + "-target"}
+                textInputRef={targetRef}
                 style={styles.textBox}
                 value={target}
                 validationRegex={TARGET_REGEX_PREFIX}
+                onPressPrev={() => {if (prevRefs) {prevRefs.targetRef.current.focus()}}}
+                onPressNext={() => {
+                    console.log("thisId", id)
+                    console.log("nextSetId", nextSetId)
+                    console.log("nextRefs", nextRefs.targetRef.current._internalFiberInstanceHandleDEV.memoizedProps.id)
+                    if (nextRefs) {nextRefs.targetRef.current.focus()}}
+            }
                 extraKeys={[
                     {value:"R", label:"RPE"},
                     {value:"X", label:"X"},
@@ -34,6 +45,9 @@ export default function Set({id}){
             />
             <StructuredTextEdit
                 id={id + "-achieved"}
+                textInputRef={achievedRef}
+                onPressPrev={() => {if (prevRefs) {prevRefs.achievedRef.current.focus()}}}
+                onPressNext={() => {if (nextRefs) {nextRefs.achievedRef.current.focus()}}}
                 style={styles.textBox}
                 value={achieved}
                 validationRegex={ACHIEVED_REGEX_PREFIX}
