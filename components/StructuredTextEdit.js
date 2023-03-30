@@ -19,7 +19,7 @@ export default function StructuredTextEdit(
         validationRegex = /.*/,
         valueFormatter = (x) => x,
         extraKeys = [],
-        onAcceptedValue = (v) => console.log("Accepted Value: " + v),
+        onAcceptedValue = (v) => {},
         onPressPrev = () => null,
         onPressNext = () => null,
     }) {
@@ -37,7 +37,7 @@ export default function StructuredTextEdit(
         if (validationRegex.test(newValue)) {
             onAcceptedValue(newValue);
         } else {
-            console.log("Illegal value entered: " + newValue)
+            console.debug("Illegal value entered: " + newValue)
         }
     }
 
