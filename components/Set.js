@@ -1,4 +1,4 @@
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import StructuredTextEdit from "./StructuredTextEdit";
 import {updateTarget, updateAchieved} from "../redux/workout/action";

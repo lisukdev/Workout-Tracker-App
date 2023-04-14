@@ -5,6 +5,7 @@ import IconButton from "./IconButton";
 import Button from "./Button";
 import {useDispatch, useSelector} from "react-redux";
 import {finishWorkout, loadWorkout} from "../redux/workout/action";
+import RestTime from "./RestTime";
 
 export default function Workout() {
     const dispatch = useDispatch();
@@ -40,7 +41,7 @@ export default function Workout() {
                         <Button label="Finish" onPress={() => dispatch(finishWorkout(metadata.id))}/>
                     </View>
                 }
-                //ItemSeparatorComponent={({section}) => section.targetRestTime ? <View><RestTime {...section} /></View> : null}
+                ItemSeparatorComponent={({leadingItem, trailingItem, section}) => <RestTime setId={leadingItem.id} nextSetId = {trailingItem.id} targetRestTime={section.targetRestTime}/>}
             />
         </KeyboardAvoidingView>
     );
@@ -63,16 +64,6 @@ function ExerciseHeader({name, notes, tempo}) {
             </View>
         </View>
     );
-}
-
-function RestTime({targetRestTime}) {
-    if (targetRestTime == null) {
-        return null;
-    }
-
-    return <Text>
-        Rest {new Date(targetRestTime*1000).toISOString().substring(14, 19)}
-    </Text>
 }
 
 function Tempo({tempo }) {

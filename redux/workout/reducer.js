@@ -8,6 +8,7 @@ const initialState = {
     workoutData: null,
     setData: {},
     setReferences: null,
+    lastSetAchieved: null,
 }
 
 export default (state = initialState, action) => {
@@ -24,11 +25,16 @@ export default (state = initialState, action) => {
                 }
             };
         case "SET_ACHIEVED":
+            const achievedTimestamp = state.setData[action.id].achievedTimestamp || Date.now();
             return {
                 ...state,
                 setData: {
                     ...state.setData,
-                    ...{[action.id]: {...state.setData[action.id], achieved: action.achieved}}
+                    ...{[action.id]: {
+                        ...state.setData[action.id],
+                            achievedTimestamp: achievedTimestamp,
+                            achieved: action.achieved
+                    }}
                 },
             };
         case "ADD_SET":

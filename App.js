@@ -6,6 +6,7 @@ import {ExampleWorkout} from "./data/TestData";
 import {store} from "./redux/store";
 
 import Workout from "./components/Workout";
+import Timer from "./components/Timer";
 
 export default function App() {
     const {name, notes, exercises} = ExampleWorkout;
