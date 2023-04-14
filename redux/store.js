@@ -1,5 +1,5 @@
 import {createStore, combineReducers} from "redux";
-import WorkoutReducer from "./workout/reducer";
+import WorkoutReducer from "./activeWorkout/reducer";
 
 const rootReducer = combineReducers({
     activeWorkout: WorkoutReducer,

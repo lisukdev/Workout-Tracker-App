@@ -4,7 +4,7 @@ import {HeaderText, NoteText, SubHeaderText, TitleText} from "./Text";
 import IconButton from "./IconButton";
 import Button from "./Button";
 import {useDispatch, useSelector} from "react-redux";
-import {finishWorkout, loadWorkout} from "../redux/workout/action";
+import {finishWorkout, loadWorkout} from "../redux/activeWorkout/action";
 import RestTime from "./RestTime";
 
 export default function Workout() {
