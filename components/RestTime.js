@@ -1,11 +1,10 @@
 import {Text, View} from "react-native";
 import TimerDisplay from "./TimerDisplay";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 
-export default function RestTime({setId, nextSetId, targetRestTime}) {
-    const restStartTimestamp = useSelector(state => state.workout.setData[setId].achievedTimestamp);
-    const restEndTimestamp = useSelector(state => state.workout.setData[nextSetId].achievedTimestamp);
+export default function RestTime({setId, targetRestTime}) {
+    const {restStartTimestamp, restEndTimestamp} = useSelector(state => state.workout.setData[setId]);
     const [restTime, setRestTime] = useState(null);
 
     useEffect(() => {

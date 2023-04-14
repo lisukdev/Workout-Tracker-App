@@ -41,7 +41,7 @@ export default function Workout() {
                         <Button label="Finish" onPress={() => dispatch(finishWorkout(metadata.id))}/>
                     </View>
                 }
-                ItemSeparatorComponent={({leadingItem, trailingItem, section}) => <RestTime setId={leadingItem.id} nextSetId = {trailingItem.id} targetRestTime={section.targetRestTime}/>}
+                ItemSeparatorComponent={({leadingItem, section}) => <RestTime setId={leadingItem.id} targetRestTime={section.targetRestTime}/>}
             />
         </KeyboardAvoidingView>
     );

@@ -25,17 +25,27 @@ export default (state = initialState, action) => {
                 }
             };
         case "SET_ACHIEVED":
-            const achievedTimestamp = state.setData[action.id].achievedTimestamp || Date.now();
+            const achievedTimestamp = state.setData[action.id].restStartTimestamp || Date.now();
+            const lastSetAchieved = state.lastSetAchieved;
+            var previousSetData = {};
+            if (lastSetAchieved && lastSetAchieved !== action.id) {
+                previousSetData[lastSetAchieved] = {
+                    ...state.setData[lastSetAchieved],
+                    restEndTimestamp: achievedTimestamp,
+                };
+            }
             return {
                 ...state,
                 setData: {
                     ...state.setData,
+                    ...previousSetData,
                     ...{[action.id]: {
                         ...state.setData[action.id],
-                            achievedTimestamp: achievedTimestamp,
-                            achieved: action.achieved
-                    }}
+                        restStartTimestamp: achievedTimestamp,
+                        achieved: action.achieved
+                    }},
                 },
+                lastSetAchieved: action.id,
             };
         case "ADD_SET":
             for (const exercise of state.workoutData) {
