@@ -9,8 +9,8 @@ import RestTime from "./RestTime";
 
 export default function Workout() {
     const dispatch = useDispatch();
-    const workoutData = useSelector(state => state.workout.workoutData);
-    const metadata = useSelector(state => state.workout.workoutMetadata);
+    const workoutData = useSelector(state => state.activeWorkout.workoutData);
+    const metadata = useSelector(state => state.activeWorkout.workoutMetadata);
     if (workoutData == null) {
         return <View>
             <Text>No workout loaded</Text>

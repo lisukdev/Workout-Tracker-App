@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 
 export default function RestTime({setId, targetRestTime}) {
-    const {restStartTimestamp, restEndTimestamp} = useSelector(state => state.workout.setData[setId]);
+    const {restStartTimestamp, restEndTimestamp} = useSelector(state => state.activeWorkout.setData[setId]);
     const [restTime, setRestTime] = useState(null);
 
     useEffect(() => {

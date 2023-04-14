@@ -5,10 +5,10 @@ import {updateTarget, updateAchieved} from "../redux/workout/action";
 import {ACHIEVED_REGEX_PREFIX, TARGET_REGEX_PREFIX} from "../data/ExerciseSets";
 
 export default function Set({id, prevSetId, nextSetId}) {
-    const {target, achieved} = useSelector(state => state.workout.setData[id]);
-    const {targetRef, achievedRef} = useSelector(state => state.workout.setReferences[id]);
-    const prevRefs = useSelector(state => state.workout.setReferences[prevSetId]);
-    const nextRefs = useSelector(state => state.workout.setReferences[nextSetId]);
+    const {target, achieved} = useSelector(state => state.activeWorkout.setData[id]);
+    const {targetRef, achievedRef} = useSelector(state => state.activeWorkout.setReferences[id]);
+    const prevRefs = useSelector(state => state.activeWorkout.setReferences[prevSetId]);
+    const nextRefs = useSelector(state => state.activeWorkout.setReferences[nextSetId]);
     const dispatch = useDispatch();
     return (
         <View style={styles.setRow}>

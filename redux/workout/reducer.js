@@ -48,7 +48,7 @@ export default (state = initialState, action) => {
                 lastSetAchieved: action.id,
             };
         case "ADD_SET":
-            for (const exercise of state.workoutData) {
+            for (const exercise of state.activeWorkoutData) {
                 if (exercise.id === action.id) {
                     const newSet = {
                         id: uuid.v4(),
@@ -61,7 +61,7 @@ export default (state = initialState, action) => {
                             ...state.setData,
                             ...{[newSet.id]: newSet}
                         },
-                        workoutData: state.workoutData.map(exercise => {
+                        workoutData: state.activeWorkoutData.map(exercise => {
                             if (exercise.id === action.id) {
                                 return {
                                     ...exercise,
