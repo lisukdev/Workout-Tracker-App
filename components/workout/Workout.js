@@ -1,4 +1,4 @@
-import {KeyboardAvoidingView, Pressable, SectionList, StyleSheet, Text, View} from "react-native";
+import {KeyboardAvoidingView, Pressable, SafeAreaView, SectionList, StyleSheet, Text, View} from "react-native";
 import Set from "./Set";
 import {HeaderText, NoteText, SubHeaderText, TitleText} from "../shared/Text";
 import IconButton from "../shared/IconButton";
@@ -6,6 +6,7 @@ import Button from "../shared/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {finishWorkout, loadWorkout} from "../../redux/activeWorkout/action";
 import RestTime from "./RestTime";
+import React from "react";
 
 export default function Workout() {
     const dispatch = useDispatch();
@@ -18,6 +19,7 @@ export default function Workout() {
         </View>
     }
     return (
+        <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView  style={{height:"100%"}} behavior="padding">
             <View style={[styles.header, {flexDirection: "row", justifyContent: "space-between"}]}>
                 <TitleText>{metadata.name}</TitleText>
@@ -44,6 +46,7 @@ export default function Workout() {
                 ItemSeparatorComponent={({leadingItem, section}) => <RestTime setId={leadingItem.id} targetRestTime={section.targetRestTime}/>}
             />
         </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 
@@ -80,6 +83,10 @@ function Tempo({tempo }) {
     ;
 }
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#fff',
+        width: "100%",
+    },
     header: {
         backgroundColor: "#ddd",
         paddingHorizontal: 10,

@@ -1,20 +1,27 @@
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import { StatusBar } from 'expo-status-bar';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {Button, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {Provider} from "react-redux";
 
-import {ExampleWorkout} from "./data/TestData";
 import {store} from "./redux/store";
 
 import Workout from "./components/workout/Workout";
 
 export default function App() {
-    const {name, notes, exercises} = ExampleWorkout;
+    const Stack = createStackNavigator();
   return (
       <Provider store={store}>
-          <SafeAreaView style={styles.container}>
-              <StatusBar style="auto" />
-              <Workout name={name} notes={notes} exercises={exercises}/>
-          </SafeAreaView>
+          <StatusBar style="auto" />
+          <NavigationContainer>
+              <Stack.Navigator initialRouteName="Home">
+                  <Stack.Screen name="Home" component={Home} />
+                  <Stack.Screen name="Details" component={Details} />
+                  <Stack.Screen name="Workout" component={Workout} />
+              </Stack.Navigator>
+          </NavigationContainer>
       </Provider>
   );
 }
@@ -25,3 +32,35 @@ const styles = StyleSheet.create({
       width: "100%",
   },
 });
+
+function Home({ navigation }) {
+    return (
+        <View style={styles.container}>
+            <Text>Home Screen</Text>
+            <Button
+                title="Show me the Details screen"
+                onPress={() => navigation.navigate('Details')}
+            />
+            <Button
+                title="Show me the Workout screen"
+                onPress={() => navigation.navigate('Workout')}
+            />
+        </View>
+    );
+}
+
+function Details({ navigation }) {
+    return (
+        <View style={styles.container}>
+            <Text>This is the Details page</Text>
+            <Button
+                title="Back to the Home Screen"
+                onPress={() => navigation.navigate('Home')}
+            />
+            <Button
+                title="Show me the Workout screen"
+                onPress={() => navigation.navigate('Workout')}
+            />
+        </View>
+    );
+}
