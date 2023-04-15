@@ -5,7 +5,7 @@ import {Provider} from "react-redux";
 import {ExampleWorkout} from "./data/TestData";
 import {store} from "./redux/store";
 
-import Workout from "./components/Workout";
+import Workout from "./components/workout/Workout";
 
 export default function App() {
     const {name, notes, exercises} = ExampleWorkout;

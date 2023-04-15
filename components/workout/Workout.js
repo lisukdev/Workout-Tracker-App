@@ -1,10 +1,10 @@
 import {KeyboardAvoidingView, Pressable, SectionList, StyleSheet, Text, View} from "react-native";
 import Set from "./Set";
-import {HeaderText, NoteText, SubHeaderText, TitleText} from "./Text";
-import IconButton from "./IconButton";
-import Button from "./Button";
+import {HeaderText, NoteText, SubHeaderText, TitleText} from "../shared/Text";
+import IconButton from "../shared/IconButton";
+import Button from "../shared/Button";
 import {useDispatch, useSelector} from "react-redux";
-import {finishWorkout, loadWorkout} from "../redux/activeWorkout/action";
+import {finishWorkout, loadWorkout} from "../../redux/activeWorkout/action";
 import RestTime from "./RestTime";
 
 export default function Workout() {

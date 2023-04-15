@@ -1,8 +1,8 @@
 import {StyleSheet, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
-import StructuredTextEdit from "./StructuredTextEdit";
-import {updateTarget, updateAchieved} from "../redux/activeWorkout/action";
-import {ACHIEVED_REGEX_PREFIX, TARGET_REGEX_PREFIX} from "../data/ExerciseSets";
+import StructuredTextEdit from "../shared/StructuredTextEdit";
+import {updateTarget, updateAchieved} from "../../redux/activeWorkout/action";
+import {ACHIEVED_REGEX_PREFIX, TARGET_REGEX_PREFIX} from "../../data/ExerciseSets";
 
 export default function Set({id, prevSetId, nextSetId}) {
     const {target, achieved} = useSelector(state => state.activeWorkout.setData[id]);
