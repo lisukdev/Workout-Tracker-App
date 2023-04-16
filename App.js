@@ -1,27 +1,26 @@
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import { StatusBar } from 'expo-status-bar';
-import {SafeAreaView, StyleSheet} from 'react-native';
 import {Provider} from "react-redux";
 
-import {ExampleWorkout} from "./data/TestData";
 import {store} from "./redux/store";
 
-import Workout from "./components/Workout";
+import Home from "./components/home/Home";
+import Workout from "./components/workout/Workout";
 
 export default function App() {
-    const {name, notes, exercises} = ExampleWorkout;
+    const Stack = createStackNavigator();
   return (
       <Provider store={store}>
-          <SafeAreaView style={styles.container}>
-              <StatusBar style="auto" />
-              <Workout name={name} notes={notes} exercises={exercises}/>
-          </SafeAreaView>
+          <StatusBar style="auto" />
+          <NavigationContainer>
+              <Stack.Navigator initialRouteName="Home">
+                  <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
+                  <Stack.Screen name="Workout" component={Workout} />
+              </Stack.Navigator>
+          </NavigationContainer>
       </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-      backgroundColor: '#fff',
-      width: "100%",
-  },
-});
