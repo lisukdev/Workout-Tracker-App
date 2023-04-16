@@ -117,6 +117,8 @@ export default (state = initialState, action) => {
                 setData: setData,
                 setReferences: setReferences,
             }
+        case "ABANDON_WORKOUT":
+           return initialState;
         default:
             return state;
     }
