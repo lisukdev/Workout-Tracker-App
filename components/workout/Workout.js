@@ -53,7 +53,7 @@ export default function Workout() {
 function ExerciseHeader({name, notes, tempo}) {
     return (
         <View>
-        <View style={styles.header}>
+            <View style={styles.header}>
                 <HeaderText style={styles.headerText}>
                     {name}
                     &nbsp;

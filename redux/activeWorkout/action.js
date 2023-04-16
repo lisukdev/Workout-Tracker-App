@@ -1,3 +1,8 @@
+export const abandonActiveWorkout = () => {
+    return {
+        type: "ABANDON_WORKOUT",
+    }
+};
 export const finishWorkout = (id) => {
     return {
         type: "FINISH_WORKOUT",
