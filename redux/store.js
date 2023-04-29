@@ -1,9 +1,9 @@
-import {createStore, combineReducers} from "redux";
-import WorkoutReducer from "./activeWorkout/reducer";
+import {configureStore} from "@reduxjs/toolkit";
+import ActiveWorkoutReducer from "./activeWorkout";
 
-const rootReducer = combineReducers({
-    activeWorkout: WorkoutReducer,
-});
-
-export const store = createStore(rootReducer);
+export const store = configureStore({
+    reducer: {
+        activeWorkout: ActiveWorkoutReducer,
+    }
+})
 

@@ -1,25 +1,22 @@
 import {StyleSheet, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import StructuredTextEdit from "../shared/StructuredTextEdit";
-import {updateTarget, updateAchieved} from "../../redux/activeWorkout/action";
 import {ACHIEVED_REGEX_PREFIX, TARGET_REGEX_PREFIX} from "../../data/ExerciseSets";
+import {actions} from "../../redux/activeWorkout";
+import React from "react";
 
 export default function Set({id, prevSetId, nextSetId}) {
-    const {target, achieved} = useSelector(state => state.activeWorkout.setData[id]);
-    const {targetRef, achievedRef} = useSelector(state => state.activeWorkout.setReferences[id]);
-    const prevRefs = useSelector(state => state.activeWorkout.setReferences[prevSetId]);
-    const nextRefs = useSelector(state => state.activeWorkout.setReferences[nextSetId]);
     const dispatch = useDispatch();
+
+    const {target, achieved} = useSelector(state => state.activeWorkout.setData[id]);
+
     return (
         <View style={styles.setRow}>
             <StructuredTextEdit
                 id={id + "-target"}
-                textInputRef={targetRef}
                 style={styles.textBox}
                 value={target}
                 validationRegex={TARGET_REGEX_PREFIX}
-                onPressPrev={() => {if (prevRefs) {prevRefs.targetRef.current.focus()}}}
-                onPressNext={() => {if (nextRefs) {nextRefs.targetRef.current.focus()}}}
                 extraKeys={[
                     {value:"R", label:"RPE"},
                     {value:"X", label:"X"},
@@ -36,13 +33,10 @@ export default function Set({id, prevSetId, nextSetId}) {
                     .replaceAll("K", "Kg")
                     .replaceAll("L", "Lb")
                 }
-                onAcceptedValue={(newValue) => dispatch(updateTarget(id, newValue))}
+                onAcceptedValue={(newValue) => dispatch(actions.setTarget({id: id, target: newValue}))}
             />
             <StructuredTextEdit
                 id={id + "-achieved"}
-                textInputRef={achievedRef}
-                onPressPrev={() => {if (prevRefs) {prevRefs.achievedRef.current.focus()}}}
-                onPressNext={() => {if (nextRefs) {nextRefs.achievedRef.current.focus()}}}
                 style={styles.textBox}
                 value={achieved}
                 validationRegex={ACHIEVED_REGEX_PREFIX}
@@ -60,7 +54,7 @@ export default function Set({id, prevSetId, nextSetId}) {
                     {value:"+", label:"👍"},
                     {value: "-", label:"👎"},
                 ]}
-                onAcceptedValue={(newValue) => dispatch(updateAchieved(id, newValue))}
+                onAcceptedValue={(newValue) => dispatch(actions.setAchieved({id: id, achieved: newValue}))}
             />
         </View>
     );

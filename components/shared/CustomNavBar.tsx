@@ -9,7 +9,6 @@ export default function CustomNavigationBar({
                                                 back,
                                             }) {
     const theme = useTheme();
-    console.log(theme.colors)
 
     const [visible, setVisible] = React.useState(false);
     const openMenu = () => setVisible(true);

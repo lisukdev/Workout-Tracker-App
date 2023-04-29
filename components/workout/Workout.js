@@ -1,12 +1,12 @@
 import {KeyboardAvoidingView, Pressable, SafeAreaView, SectionList, StyleSheet, Text, View} from "react-native";
 import Set from "./Set";
-import {HeaderText, NoteText, SubHeaderText, TitleText} from "../shared/Text";
+import {HeaderText, NoteText, TitleText} from "../shared/Text";
 import IconButton from "../shared/IconButton";
 import Button from "../shared/Button";
 import {useDispatch, useSelector} from "react-redux";
-import {finishWorkout, loadWorkout} from "../../redux/activeWorkout/action";
 import RestTime from "./RestTime";
 import React from "react";
+import {actions} from "../../redux/activeWorkout";
 
 export default function Workout() {
     const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export default function Workout() {
     if (workoutData == null) {
         return <View>
             <Text>No workout loaded</Text>
-            <Button label="Load Workout" onPress={() => dispatch(loadWorkout(""))}/>
+            <Button label="Load Workout" onPress={() => dispatch(actions.loadWorkout(""))}/>
         </View>
     }
     return (
@@ -40,7 +40,7 @@ export default function Workout() {
                 renderSectionFooter={({section}) => <View><Pressable><Text>Add Set</Text></Pressable></View>}
                 ListFooterComponent={
                     <View>
-                        <Button label="Finish" onPress={() => dispatch(finishWorkout(metadata.id))}/>
+                        <Button label="Finish" onPress={() => dispatch(actions.finishWorkout(metadata.id))}/>
                     </View>
                 }
                 ItemSeparatorComponent={({leadingItem, section}) => <RestTime setId={leadingItem.id} targetRestTime={section.targetRestTime}/>}
