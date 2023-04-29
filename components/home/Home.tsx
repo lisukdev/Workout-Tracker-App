@@ -1,9 +1,10 @@
 import {ScrollView} from "react-native";
-import {Avatar, Banner, Button, Card, IconButton, List, MD3Colors, Text} from 'react-native-paper';
+import {Avatar, Banner, Button, Card, IconButton, List, Text} from 'react-native-paper';
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {abandonActiveWorkout, loadWorkout} from "../../redux/activeWorkout/action";
 import {useNavigation} from "@react-navigation/native";
+import {actions} from "../../redux/activeWorkout";
+import {ExampleWorkout} from "../../data/TestData";
 
 export default function Home({ navigation }) {
     return (
@@ -28,7 +29,7 @@ const ActiveWorkout = () => {
                 {
                     label: 'Abandon',
                     icon: 'cancel',
-                    onPress: () => {dispatch(abandonActiveWorkout())},
+                    onPress: () => {dispatch(actions.abandonWorkout())},
                 },
                 {
                     label: 'Resume',
@@ -49,7 +50,7 @@ function Inbox() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const startWorkout = () => {
-        dispatch(loadWorkout(""))
+        dispatch(actions.loadWorkout({workout: ExampleWorkout}))
         navigation.navigate("Workout")
     }
     return (
@@ -72,7 +73,7 @@ function Workouts() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const startWorkout = () => {
-        dispatch(loadWorkout(""))
+        dispatch(actions.loadWorkout({workout: ExampleWorkout}))
         navigation.navigate("Workout")
     }
     return (
