@@ -108,7 +108,6 @@ export default (state = initialState, action) => {
                     data: exerciseData
                 })
             }
-            console.log(setReferences)
 
             return {
                 ...state,

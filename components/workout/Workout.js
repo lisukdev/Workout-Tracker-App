@@ -1,6 +1,6 @@
 import {KeyboardAvoidingView, Pressable, SafeAreaView, SectionList, StyleSheet, Text, View} from "react-native";
 import Set from "./Set";
-import {HeaderText, NoteText, SubHeaderText, TitleText} from "../shared/Text";
+import {HeaderText, NoteText, TitleText} from "../shared/Text";
 import IconButton from "../shared/IconButton";
 import Button from "../shared/Button";
 import {useDispatch, useSelector} from "react-redux";
