@@ -1,7 +1,6 @@
 import uuid from 'react-native-uuid';
 
 export const ExampleWorkout = {
-    "id": uuid.v4(),
     "name": "HF/HI Comp PL EC 4x",
     "notes": "Day 3",
     "exercises": [
