@@ -8,14 +8,13 @@ import {
     TextInput,
     View
 } from "react-native";
-import {useState} from "react";
+import React from "react";
 
 export default function StructuredTextEdit(
     {
         id,
         style,
         value = "",
-        textInputRef = null,
         validationRegex = /.*/,
         valueFormatter = (x) => x,
         extraKeys = [],
@@ -23,9 +22,9 @@ export default function StructuredTextEdit(
         onPressPrev = () => null,
         onPressNext = () => null,
     }) {
-    const [isEditing, setIsEditing] = useState(false);
     const formattedValue = valueFormatter(value);
     const keyboardNativeId = id + "-keyboard";
+    const textInputRef = React.useRef(null);
     const onKeyPress = (pressedKey) => {
         const startingValue = value
         let newValue;
@@ -56,8 +55,6 @@ export default function StructuredTextEdit(
             inputAccessoryViewID={keyboardNativeId}
             value={formattedValue}
             onKeyPress={(event) => onKeyPress(event.nativeEvent.key)}
-            onFocus={() => setIsEditing(true)}
-            onBlur={() => setIsEditing(false)}
         />
         <InputAccessoryView id={keyboardNativeId} nativeID={keyboardNativeId}>
             <View style={styles.actionBar}>
