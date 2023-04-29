@@ -13,7 +13,7 @@ import {Provider as StoreProvider} from "react-redux";
 import {store} from "./redux/store";
 
 import {
-    Provider as PaperProvider, MD3DarkTheme, MD3LightTheme, adaptNavigationTheme,
+    Provider as PaperProvider, MD3DarkTheme, MD3LightTheme, adaptNavigationTheme, Modal, ActivityIndicator, Portal,
 } from 'react-native-paper';
 
 import { StatusBar } from 'expo-status-bar';
@@ -21,6 +21,8 @@ import CustomNavigationBar from "./components/shared/CustomNavBar";
 
 import Home from "./components/home/Home";
 import Workout from "./components/workout/Workout";
+import Login from "./screens/auth/login";
+import LoadingModal from "./components/loadingModal";
 
 const { LightTheme, DarkTheme } = adaptNavigationTheme({
     reactNavigationLight: NavigationDefaultTheme,
@@ -38,14 +40,16 @@ export default function App() {
       <StoreProvider store={store}>
           <PaperProvider theme={theme}>
               <NavigationContainer theme={theme}>
+                  <LoadingModal />
                   <Stack.Navigator
-                      initialRouteName="Home"
+                      initialRouteName="Signin"
                       screenOptions={{
                           header: (props) => <CustomNavigationBar {...props} />,
                       }}
                   >
                       <Stack.Screen name="Home" component={Home} />
                       <Stack.Screen name="Workout" component={Workout} />
+                      <Stack.Screen name={"Signin"} component={Login} />
                   </Stack.Navigator>
               </NavigationContainer>
           </PaperProvider>
