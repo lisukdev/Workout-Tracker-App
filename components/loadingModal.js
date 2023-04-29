@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 export default function LoadingModal() {
     const visible = useSelector(state => state.app.loading);
     return <Portal>
-        <Modal visible={visible} onDismiss={() => setVisible(false)}>
+        <Modal visible={visible}>
             <ActivityIndicator size="large"/>
         </Modal>
     </Portal>

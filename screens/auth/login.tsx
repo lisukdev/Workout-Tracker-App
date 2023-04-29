@@ -14,8 +14,7 @@ export default function Login() {
     const [password, setPassword] = React.useState('');
     return <SafeAreaView style={{backgroundColor: '#fff', width: "100%"}}>
         <KeyboardAvoidingView behavior="position">
-
-                <ScrollView>
+            <ScrollView>
                 <Card style={styles.container}>
                     <Avatar.Image size={100} style={styles.icon} source={require('../../assets/icon.png')}/>
                     <Card.Content>

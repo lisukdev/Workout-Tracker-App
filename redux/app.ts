@@ -15,7 +15,6 @@ const appSlice = createSlice({
         },
         loginSuccess(state, action: PayloadAction<{token: string, refreshToken: string}>) {
             state.loading = false;
-            console.log(action.payload)
             state.refreshToken = action.payload.refreshToken;
             state.token = action.payload.token;
         },
@@ -31,5 +30,6 @@ const appSlice = createSlice({
         }
     },
 })
+
 export const actions = appSlice.actions
 export default appSlice.reducer
