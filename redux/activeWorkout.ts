@@ -17,15 +17,14 @@ const activeWorkoutSlice = createSlice({
             state.setData[action.payload.id].target = action.payload.target
         },
         setAchieved: (state, action: PayloadAction<{id: string, achieved: string}>) => {
-            console.log(action.payload)
-            console.log(state.setData)
             const achievedTimestamp = state.setData[action.payload.id].restStartTimestamp || Date.now();
             const lastSetAchieved = state.lastSetAchieved;
-            if (lastSetAchieved && lastSetAchieved.id !== action.payload.id) {
-                state.setData[lastSetAchieved].restStartTimestamp = achievedTimestamp;
+            if (lastSetAchieved && lastSetAchieved !== action.payload.id) {
+                state.setData[lastSetAchieved].restEndTimestamp = achievedTimestamp;
             }
             state.setData[action.payload.id].achieved = action.payload.achieved;
             state.setData[action.payload.id].restStartTimestamp = achievedTimestamp;
+            state.lastSetAchieved = action.payload.id;
         },
         loadWorkout(state, action: PayloadAction<{workout: any}>) {
             const workout = action.payload.workout;
