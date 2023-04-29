@@ -1,11 +1,11 @@
 import React from "react";
 import {KeyboardAvoidingView, SafeAreaView, ScrollView, StyleSheet} from "react-native";
-import {ActivityIndicator, Avatar, Button, Card, Modal, Portal, Text, TextInput} from "react-native-paper";
+import {Avatar, Button, Card, TextInput} from "react-native-paper";
 import {cognitoPool} from "../../util/auth";
 import {AuthenticationDetails, CognitoUser} from "amazon-cognito-identity-js";
 import {useNavigation} from "@react-navigation/native";
 import {useDispatch} from "react-redux";
-import {loginFailure, loginStart, loginSuccess, startLogin, suceedLogin} from "../../redux/app/action";
+import {actions} from "../../redux/app"
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -46,16 +46,16 @@ export default function Login() {
 }
 
 function tryLogin(dispatch, navigation, userName: string, password: string) {
-    dispatch(loginStart())
+    dispatch(actions.loginStart())
     const user = new CognitoUser({Username: userName, Pool: cognitoPool});
     const authDetails = new AuthenticationDetails({Username: userName, Password: password});
     user.authenticateUser(authDetails, {
         onSuccess: (result) => {
             navigation.navigate("Home")
-            dispatch(loginSuccess(result))
+            dispatch(actions.loginSuccess({token: result.getIdToken(), refreshToken: result.getRefreshToken()}))
         },
         onFailure: (err) => {
-            dispatch(loginFailure(err))
+            dispatch(actions.loginFailure())
             console.log(err)
         },
     });
