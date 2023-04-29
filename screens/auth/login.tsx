@@ -52,7 +52,11 @@ function tryLogin(dispatch, navigation, userName: string, password: string) {
     user.authenticateUser(authDetails, {
         onSuccess: (result) => {
             navigation.navigate("Home")
-            dispatch(actions.loginSuccess({token: result.getIdToken(), refreshToken: result.getRefreshToken()}))
+            const payload = {
+                token: result.getIdToken().getJwtToken(),
+                refreshToken: result.getRefreshToken().getToken(),
+            }
+            dispatch(actions.loginSuccess(payload));
         },
         onFailure: (err) => {
             dispatch(actions.loginFailure())

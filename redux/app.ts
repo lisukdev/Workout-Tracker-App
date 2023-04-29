@@ -13,8 +13,9 @@ const appSlice = createSlice({
             state.refreshToken = null;
             state.token = null;
         },
-        loginSuccess(state, action: PayloadAction<{token: CognitoIdToken, refreshToken: CognitoRefreshToken}>) {
+        loginSuccess(state, action: PayloadAction<{token: string, refreshToken: string}>) {
             state.loading = false;
+            console.log(action.payload)
             state.refreshToken = action.payload.refreshToken;
             state.token = action.payload.token;
         },
