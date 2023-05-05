@@ -5,13 +5,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
 import {actions} from "../redux/activeWorkout";
 import {ExampleWorkout} from "../data/TestData";
-import {useGetLibraryQuery} from "../redux/platesApi";
+import {useGetLibraryByTemplateIdQuery, useGetLibraryQuery} from "../redux/platesApi";
 
 export default function Home({ navigation }) {
     return (
         <ScrollView style={{paddingHorizontal: 10}}>
             <ActiveWorkout />
-            <Workouts />
+            <WorkoutTemplateList />
         </ScrollView>
     );
 }
@@ -19,12 +19,12 @@ export default function Home({ navigation }) {
 const ActiveWorkout = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const activeWorkout = useSelector(sbtate => state.activeWorkout.workoutMetadata);
-w
+    const activeWorkout = useSelector(state => state.activeWorkout.workoutMetadata);
+
     return (
         <Banner
             style={{marginTop: 10}}
-            visible={activeWorkout !== null}
+            visible={activeWorkout}
             actions={[
                 {
                     label: 'Abandon',
@@ -46,16 +46,10 @@ w
 };
 
 
-function Workouts() {
-    const dispatch = useDispatch();
-    const navigation = useNavigation();
+function WorkoutTemplateList() {
     const {data, error, isLoading} = useGetLibraryQuery();
     const safeData = data ?? [];
-    console.log(isLoading, data, error)
-    const startWorkout = () => {
-        dispatch(actions.loadWorkout({workout: ExampleWorkout}))
-        navigation.navigate("Workout")
-    }
+    console.log(isLoading, safeData, error)
     return (
         <Card style={{marginVertical: 5}}>
             <Card.Title
@@ -64,18 +58,29 @@ function Workouts() {
                 right={(props) => <IconButton {...props} icon="dots-vertical" />} />
             <Card.Content>
                 {isLoading ? <ActivityIndicator /> : null}
-                {safeData.map((workout) =>
-                    <List.Item
-                        key={workout.id}
-                        title={workout.name}
-                        description={workout.id}
-                        onPress={startWorkout}
-                    />
-                )}
+                {safeData.map((item) => <WorkoutTemplateListItem template={item} />)}
             </Card.Content>
             <Card.Actions>
                 <Button mode="contained-tonal" icon="plus">Create New</Button>
             </Card.Actions>
         </Card>
     )
+}
+
+
+function WorkoutTemplateListItem({template}) {
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
+    const {data, error, isLoading} = useGetLibraryByTemplateIdQuery({templateId: template.id})
+
+    const startWorkout = () => {
+        dispatch(actions.loadWorkout({workout: data}))
+        navigation.navigate("Workout")
+    }
+
+    console.log(template)
+    console.log(data)
+    return isLoading
+        ? <ActivityIndicator size="small"/>
+        : <List.Item title={template.name} description={template.id} onPress={startWorkout} />
 }
