@@ -1,0 +1,8 @@
+{
+  "schemaFile": "https://raw.githubusercontent.com/lisukdev/Plates/main/openapi.yaml",
+  "apiFile": "./redux/emptyApi.ts",
+  "apiImport": "emptySplitApi",
+  "outputFile": "./redux/platesApi.ts",
+  "exportName": "platesApi",
+  "hooks": true
+}
