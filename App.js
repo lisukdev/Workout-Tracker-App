@@ -20,7 +20,7 @@ import { StatusBar } from 'expo-status-bar';
 import CustomNavigationBar from "./components/shared/CustomNavBar";
 
 import Home from "./screens/Home";
-import Workout from "./components/workout/Workout";
+import Workout from "./screens/Workout";
 import Login from "./screens/Login";
 import LoadingModal from "./components/loadingModal";
 

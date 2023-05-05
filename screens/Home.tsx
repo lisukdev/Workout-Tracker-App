@@ -19,8 +19,8 @@ export default function Home({ navigation }) {
 const ActiveWorkout = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const activeWorkout = useSelector(state => state.activeWorkout.workoutMetadata);
-
+    const activeWorkout = useSelector(sbtate => state.activeWorkout.workoutMetadata);
+w
     return (
         <Banner
             style={{marginTop: 10}}

@@ -1,24 +1,18 @@
 import {KeyboardAvoidingView, Pressable, SafeAreaView, SectionList, StyleSheet, Text, View} from "react-native";
-import Set from "./Set";
-import {HeaderText, NoteText, TitleText} from "../shared/Text";
-import IconButton from "../shared/IconButton";
-import Button from "../shared/Button";
+import Set from "../components/workout/Set";
+import {HeaderText, NoteText, TitleText} from "../components/shared/Text";
+import IconButton from "../components/shared/IconButton";
+import Button from "../components/shared/Button";
 import {useDispatch, useSelector} from "react-redux";
-import RestTime from "./RestTime";
+import RestTime from "../components/workout/RestTime";
 import React from "react";
-import {actions} from "../../redux/activeWorkout";
-import {useGetAuthMeQuery} from "../../redux/platesApi";
+import {actions} from "../redux/activeWorkout";
+import {useGetAuthMeQuery} from "../redux/platesApi";
 
 export default function Workout() {
     const dispatch = useDispatch();
     const workoutData = useSelector(state => state.activeWorkout.workoutData);
     const metadata = useSelector(state => state.activeWorkout.workoutMetadata);
-    if (workoutData == null) {
-        return <View>
-            <Text>No workout loaded</Text>
-            <Button label="Load Workout" onPress={() => dispatch(actions.loadWorkout(""))}/>
-        </View>
-    }
     return (
         <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView  style={{height:"100%"}} behavior="padding">
