@@ -1,16 +1,16 @@
 import {ScrollView} from "react-native";
-import {Avatar, Banner, Button, Card, IconButton, List, Text} from 'react-native-paper';
+import {ActivityIndicator, Avatar, Banner, Button, Card, IconButton, List, Text} from 'react-native-paper';
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
-import {actions} from "../../redux/activeWorkout";
-import {ExampleWorkout} from "../../data/TestData";
+import {actions} from "../redux/activeWorkout";
+import {ExampleWorkout} from "../data/TestData";
+import {useGetLibraryQuery} from "../redux/platesApi";
 
 export default function Home({ navigation }) {
     return (
         <ScrollView style={{paddingHorizontal: 10}}>
             <ActiveWorkout />
-            <Inbox />
             <Workouts />
         </ScrollView>
     );
@@ -46,32 +46,12 @@ const ActiveWorkout = () => {
 };
 
 
-function Inbox() {
-    const dispatch = useDispatch();
-    const navigation = useNavigation();
-    const startWorkout = () => {
-        dispatch(actions.loadWorkout({workout: ExampleWorkout}))
-        navigation.navigate("Workout")
-    }
-    return (
-        <Card style={{marginTop: 10, marginBottom: 5}}>
-            <Card.Title
-                title={<Text variant="titleLarge">Assigned Workouts</Text>}
-                left={(props) => <Avatar.Icon {...props} icon="inbox" />}
-                right={(props) => <IconButton {...props} icon="dots-vertical" />} />
-            <Card.Content>
-                <List.Item title="Competitive Program Week 2 Day 1" description="Sent by Paulie on March 28th due April 16th" onPress={startWorkout}/>
-                <List.Item title="Competitive Program Week 2 Day 2" description="Sent by Paulie on March 28th due April 16th" onPress={startWorkout}/>
-                <List.Item title="Competitive Program Week 2 Day 3" description="Sent by Paulie on March 28th due April 16th" onPress={startWorkout}/>
-                <List.Item title="Competitive Program Week 2 Day 4" description="Sent by Paulie on March 28th due April 16th" onPress={startWorkout}/>
-            </Card.Content>
-        </Card>
-    )
-}
-
 function Workouts() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
+    const {data, error, isLoading} = useGetLibraryQuery();
+    const safeData = data ?? [];
+    console.log(isLoading, data, error)
     const startWorkout = () => {
         dispatch(actions.loadWorkout({workout: ExampleWorkout}))
         navigation.navigate("Workout")
@@ -79,12 +59,19 @@ function Workouts() {
     return (
         <Card style={{marginVertical: 5}}>
             <Card.Title
-                title={<Text variant="titleLarge">My Workouts</Text>}
+                title={<Text variant="titleLarge">Workout Library</Text>}
                 left={(props) => <Avatar.Icon {...props} icon="inbox" />}
                 right={(props) => <IconButton {...props} icon="dots-vertical" />} />
             <Card.Content>
-                <List.Item title="Lega Day" description="Sent by Paulie on March 28th due April 16th" onPress={startWorkout}/>
-                <List.Item title="Upper Body Day" description="Sent by Paulie on March 28th due April 16th" onPress={startWorkout}/>
+                {isLoading ? <ActivityIndicator /> : null}
+                {safeData.map((workout) =>
+                    <List.Item
+                        key={workout.id}
+                        title={workout.name}
+                        description={workout.id}
+                        onPress={startWorkout}
+                    />
+                )}
             </Card.Content>
             <Card.Actions>
                 <Button mode="contained-tonal" icon="plus">Create New</Button>

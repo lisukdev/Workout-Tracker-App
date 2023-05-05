@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import {CognitoIdToken, CognitoRefreshToken} from "amazon-cognito-identity-js";
 const appSlice = createSlice({
     name: "App",
     initialState: {

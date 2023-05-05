@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import RestTime from "./RestTime";
 import React from "react";
 import {actions} from "../../redux/activeWorkout";
+import {useGetAuthMeQuery} from "../../redux/platesApi";
 
 export default function Workout() {
     const dispatch = useDispatch();
